@@ -17,9 +17,6 @@ AStation::AStation()
 	Trigger->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	Trigger->SetBoxExtent(FVector(25.0f));
 	Trigger->SetupAttachment(Mesh);
-
-	
-
 }
 
 // Called when the game starts or when spawned
@@ -29,8 +26,6 @@ void AStation::BeginPlay()
 	Trigger->OnComponentBeginOverlap.AddDynamic(this, &AStation::OnPlayerOverlap);
 
 	Trigger->OnComponentEndOverlap.AddDynamic(this, &AStation::OnPlayerExitTrigger);
-
-
 }
 
 
@@ -49,7 +44,6 @@ void AStation::OnPlayerOverlap(UPrimitiveComponent* comp, AActor* OtherActor, UP
 		UE_LOG(LogTemp, Warning, TEXT("PLAYER IN RANGE OF STATION: %s"), *GetName());
 		player->SetOverlappingActor(this);
 	}
-
 }
 
 
