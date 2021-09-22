@@ -18,6 +18,8 @@ AStation::AStation()
 	Trigger->SetBoxExtent(FVector(25.0f));
 	Trigger->SetupAttachment(Mesh);
 
+	
+
 }
 
 // Called when the game starts or when spawned
@@ -27,6 +29,8 @@ void AStation::BeginPlay()
 	Trigger->OnComponentBeginOverlap.AddDynamic(this, &AStation::OnPlayerOverlap);
 
 	Trigger->OnComponentEndOverlap.AddDynamic(this, &AStation::OnPlayerExitTrigger);
+
+
 }
 
 
