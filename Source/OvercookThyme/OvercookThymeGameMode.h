@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "Containers/Map.h"
+#include "Public/Order.h"
 #include "OvercookThymeGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -27,6 +29,19 @@ public:
 
 	UFUNCTION()
 	float CalculateTimeToNextTicket();
+
+	UPROPERTY(BlueprintReadOnly)
+	TArray<AOrder*> activeOrders;
+
+	UFUNCTION(BlueprintCallable)
+	AOrder* GenerateRandomOrder();
+
+
+	
+
+
+
+
 	
 };
 

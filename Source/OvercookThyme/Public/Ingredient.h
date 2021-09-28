@@ -41,4 +41,6 @@ public:
 	bool operator==(Ingredient& b);
 
 
+
+
 };

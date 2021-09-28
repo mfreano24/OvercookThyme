@@ -31,11 +31,34 @@ void AOvercookThymeGameMode::InitGameState()
 
 void AOvercookThymeGameMode::OnOrderTimer()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Timer fired off!"))
+	//global timer for when the next order is due to come in
+
+	if (false) {
+		//dont make a new order, simply fire off the timer in 10 second ticks until this isnt true
+		//better than an async while loop.
+		UE_LOG(LogTemp, Warning, TEXT("Orders full!"));
+		GetWorld()->GetTimerManager().SetTimer(OrderTimer, this, &AOvercookThymeGameMode::OnOrderTimer, 10.0f, false);
+	}
+	else {
+		//make a new order
+		UE_LOG(LogTemp, Warning, TEXT("Adding new order..."));
+		AOrder* newOrder; //TODO: replace with a random generator
+		activeOrders.Add(newOrder);
+		GetWorld()->GetTimerManager().SetTimer(OrderTimer, this, &AOvercookThymeGameMode::OnOrderTimer, CalculateTimeToNextTicket(), false);
+	}
 }
 
 float AOvercookThymeGameMode::CalculateTimeToNextTicket() 
 {
 	//TODO: come up with some progression curve that eventually caps out
 	return 1.0f;
+}
+
+AOrder* AOvercookThymeGameMode::GenerateRandomOrder()
+{
+	Dish d;
+
+	AOrder* newOrder = nullptr;
+	newOrder->dish = d;
+	return newOrder;
 }

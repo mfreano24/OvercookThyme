@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Containers/Map.h"
 #include "Ingredient.h"
 
 /**
@@ -11,7 +12,8 @@
 class OVERCOOKTHYME_API Dish
 {
 public:
-	TSet<Ingredient> ingredientsList;
+	UPROPERTY(BlueprintReadOnly)
+	TArray<Ingredient> ingredientsList;
 
 	UPROPERTY(BlueprintReadWrite)
 	int scoreValue;
@@ -21,4 +23,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	int CompareIngredients(TArray<Ingredient>& passIn);
+
+	UFUNCTION(BlueprintCallable)
+	void ConstructFromDataTable(int rowNum);
+
+	
 };
