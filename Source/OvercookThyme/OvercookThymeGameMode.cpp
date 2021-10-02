@@ -29,11 +29,16 @@ void AOvercookThymeGameMode::InitGameState()
 	GetWorld()->GetTimerManager().SetTimer(OrderTimer, this, &AOvercookThymeGameMode::OnOrderTimer, 3.0f, false);
 }
 
+void AOvercookThymeGameMode::Tick()
+{
+
+}
+
 void AOvercookThymeGameMode::OnOrderTimer()
 {
 	//global timer for when the next order is due to come in
 
-	if (false) {
+	if (activeOrders.Num() >= 5) {
 		//dont make a new order, simply fire off the timer in 10 second ticks until this isnt true
 		//better than an async while loop.
 		UE_LOG(LogTemp, Warning, TEXT("Orders full!"));
@@ -42,7 +47,7 @@ void AOvercookThymeGameMode::OnOrderTimer()
 	else {
 		//make a new order
 		UE_LOG(LogTemp, Warning, TEXT("Adding new order..."));
-		AOrder* newOrder; //TODO: replace with a random generator
+		AOrder* newOrder = GenerateRandomOrder(); //TODO: replace with a random generator
 		activeOrders.Add(newOrder);
 		GetWorld()->GetTimerManager().SetTimer(OrderTimer, this, &AOvercookThymeGameMode::OnOrderTimer, CalculateTimeToNextTicket(), false);
 	}
@@ -58,7 +63,7 @@ AOrder* AOvercookThymeGameMode::GenerateRandomOrder()
 {
 	Dish d;
 
-	AOrder* newOrder = nullptr;
+	AOrder* newOrder = GetWorld()->SpawnActor<AOrder>();
 	newOrder->dish = d;
 	return newOrder;
 }
