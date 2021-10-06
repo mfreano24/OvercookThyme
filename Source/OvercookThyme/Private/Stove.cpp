@@ -3,16 +3,38 @@
 
 #include "Stove.h"
 #include "Runtime/Engine/Public/EngineGlobals.h"
+#include "Kismet/GameplayStatics.h"
+#include "../OvercookThymeGameMode.h"
+
+AStove::AStove()
+{
+	Ingredient* testIngredient = new Ingredient(Type::Burger, Doneness::Raw, 12.0f);
+	currItem = new Carryable(new Ingredient(Type::Burger, Doneness::Raw, 12.0f));
+
+	FString typeSt = "(null)";
+	switch (currItem->Ingredients[0]->type) {
+	case Type::Burger:
+		typeSt = "BURGER";
+	}
+
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.TickInterval = 0.25f;
+}
+
+AStove::~AStove()
+{
+
+}
 
 void AStove::BeginPlay()
 {
 	Super::BeginPlay();
-	Ingredient* testIngredient = new Ingredient(Type::Burger, Doneness::Raw, 12.0f);
-	currItem = new Carryable(new Ingredient(Type::Burger, Doneness::Raw, 12.0f));
 
+	//subsystem stuff
+	UOvercookGameInstanceSubsystem* cookSub = GetCookingSubsystem();
 
-	GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Red, FString::Printf(TEXT("item: %s, %s, %f"),
-		currItem->Ingredients[0]->type, currItem->Ingredients[0]->doneness, currItem->Ingredients[0]->cookedValue));
+	cookSub->CookingApplianceToMethod[this->GetClass()->GetName()] = Doneness::Grilled;
+	
 }
 
 void AStove::Interact(AOvercookThymeCharacter* Player)
@@ -44,18 +66,19 @@ void AStove::Interact(AOvercookThymeCharacter* Player)
 
 	//set the tick interval
 	if (currItem == nullptr) {
-		PrimaryActorTick.bCanEverTick = false;
+		SetActorTickEnabled(false);
 	}
 	else {
-		PrimaryActorTick.bCanEverTick = true;
-		PrimaryActorTick.TickInterval = 0.25f;
+		GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Green, FString::Printf(TEXT("tick enabled!")));
+		SetActorTickEnabled(true);
+		SetActorTickInterval(0.25f);
 	}
 }
 
 void AStove::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-
+	//GEngine->AddOnScreenDebugMessage(-1, 0.01f, FColor::Cyan, FString::Printf(TEXT("tick!")));
 	//cook something over time.
 	if (currItem != nullptr)
 	{

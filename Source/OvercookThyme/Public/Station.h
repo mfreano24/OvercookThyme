@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "../OvercookThymeCharacter.h"
+#include "OvercookGameInstanceSubsystem.h"
 #include "Station.generated.h"
 
 UCLASS()
@@ -38,5 +39,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void OnPlayerExitTrigger(UPrimitiveComponent* comp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	//internal
+	UOvercookGameInstanceSubsystem* GetCookingSubsystem();
 
 };

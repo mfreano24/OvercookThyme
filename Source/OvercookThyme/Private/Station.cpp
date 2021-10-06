@@ -36,7 +36,7 @@ void AStation::Interact(AOvercookThymeCharacter* Player)
 
 void AStation::Tick(float DeltaSeconds)
 {
-
+	Super::Tick(DeltaSeconds);
 }
 
 void AStation::OnPlayerOverlap(UPrimitiveComponent* comp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -63,6 +63,10 @@ void AStation::OnPlayerExitTrigger(UPrimitiveComponent* comp, AActor* OtherActor
 	}
 }
 
+UOvercookGameInstanceSubsystem* AStation::GetCookingSubsystem()
+{
+	return GetGameInstance()->GetSubsystem<UOvercookGameInstanceSubsystem>();
+}
 
 
 

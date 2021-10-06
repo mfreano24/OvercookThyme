@@ -16,7 +16,8 @@ enum class Type {
 
 enum class Doneness {
 	Raw,
-	Cooked,
+	Grilled,
+	Baked,
 	Burnt,
 	NONE
 };
@@ -25,6 +26,7 @@ class OVERCOOKTHYME_API Ingredient
 {
 
 public:
+
 	UPROPERTY(BlueprintReadWrite)
 	Type type;
 

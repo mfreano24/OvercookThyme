@@ -15,7 +15,8 @@ class OVERCOOKTHYME_API AStove : public AStation
 {
 	GENERATED_BODY()
 public:
-
+	AStove();
+	~AStove();
 	Carryable* currItem = nullptr;
 
 	virtual void BeginPlay() override;
