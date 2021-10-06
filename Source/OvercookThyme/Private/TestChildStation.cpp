@@ -3,8 +3,8 @@
 
 #include "TestChildStation.h"
 
-void ATestChildStation::Interact()
+void ATestChildStation::Interact(AOvercookThymeCharacter* Player)
 {
-	Super::Interact();
+	Super::Interact(Player);
 	UE_LOG(LogTemp, Warning, TEXT("CHILD TEST STATION INTERACTED WITH: %s"), *GetName());
 }

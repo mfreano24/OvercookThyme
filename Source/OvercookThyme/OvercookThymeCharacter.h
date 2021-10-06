@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Public/Carryable.h"
 #include "OvercookThymeCharacter.generated.h"
+
 
 UCLASS(Blueprintable)
 class AOvercookThymeCharacter : public ACharacter
@@ -36,6 +38,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void InteractEvent();
+
+	Carryable* currCarry = nullptr;
+
+	void PickUpCarryable(Carryable* c);
+
+	Carryable* RemoveCarryable();
 
 
 private:

@@ -29,9 +29,14 @@ void AStation::BeginPlay()
 }
 
 
-void AStation::Interact()
+void AStation::Interact(AOvercookThymeCharacter* Player)
 {
 	UE_LOG(LogTemp, Warning, TEXT("STATION INTERACTED WITH: %s"), *GetName());
+}
+
+void AStation::Tick(float DeltaSeconds)
+{
+
 }
 
 void AStation::OnPlayerOverlap(UPrimitiveComponent* comp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

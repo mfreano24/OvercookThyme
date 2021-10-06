@@ -11,6 +11,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "Runtime/Engine/Public/EngineGlobals.h"
 
 #include "Public/Station.h"
 
@@ -106,7 +107,7 @@ void AOvercookThymeCharacter::InteractEvent()
 	{
 		//TODO: need this to call whatever class's interact function is being hit
 		AStation* station = Cast<AStation>(overlappedStation);
-		station->Interact();
+		station->Interact(this);
 	}
 	else
 	{
@@ -114,4 +115,28 @@ void AOvercookThymeCharacter::InteractEvent()
 	}
 }
 
+void AOvercookThymeCharacter::PickUpCarryable(Carryable* c)
+{
+	if (currCarry == nullptr) {
+		currCarry = c;
+		GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Red, FString::Printf(TEXT("Picked up from stove: %s, %s, %f"),
+			currCarry->Ingredients[0]->type, currCarry->Ingredients[0]->doneness, currCarry->Ingredients[0]->cookedValue));
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("YOU'RE HOLDING SOMETHING ALREADY!!"));
+	}
+}
 
+Carryable* AOvercookThymeCharacter::RemoveCarryable()
+{
+	Carryable* ret = nullptr;
+	if (currCarry != nullptr) {
+		ret = currCarry;
+		currCarry = nullptr;
+		return ret;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("YOU AREN'T HOLDING ANYTHING!"));
+	}
+	return nullptr;
+}

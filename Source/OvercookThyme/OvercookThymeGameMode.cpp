@@ -29,11 +29,6 @@ void AOvercookThymeGameMode::InitGameState()
 	GetWorld()->GetTimerManager().SetTimer(OrderTimer, this, &AOvercookThymeGameMode::OnOrderTimer, 3.0f, false);
 }
 
-void AOvercookThymeGameMode::Tick()
-{
-
-}
-
 void AOvercookThymeGameMode::OnOrderTimer()
 {
 	//global timer for when the next order is due to come in

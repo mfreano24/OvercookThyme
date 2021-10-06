@@ -15,6 +15,6 @@ class OVERCOOKTHYME_API ATestChildStation : public AStation
 	GENERATED_BODY()
 
 public: 
-	virtual void Interact() override;
+	virtual void Interact(AOvercookThymeCharacter* Player) override;
 	
 };
