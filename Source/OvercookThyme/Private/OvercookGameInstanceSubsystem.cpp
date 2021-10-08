@@ -6,9 +6,10 @@
 void UOvercookGameInstanceSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-	IdealTypeToDoneness[Type::NONE] = Doneness::NONE;
 
-	CookingApplianceToMethod[""] = Doneness::NONE;
+	IdealTypeToDoneness.Add(Type::NONE, Doneness::NONE);
+
+	CookingApplianceToMethod.Add("", Doneness::NONE);
 
 	UE_LOG(LogTemp, Warning, TEXT("Initialize() called in GameInstance Subsystem"));
 }

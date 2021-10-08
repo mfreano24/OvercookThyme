@@ -17,11 +17,11 @@ class OVERCOOKTHYME_API AStove : public AStation
 public:
 	AStove();
 	~AStove();
-	Carryable* currItem = nullptr;
+	
 
 	virtual void BeginPlay() override;
 
-	virtual void Interact(AOvercookThymeCharacter* Player) override;
+	//virtual void Interact(AOvercookThymeCharacter* Player) override;
 
 	virtual void Tick(float DeltaSeconds) override;
 };

@@ -10,6 +10,7 @@
 
 enum class Type {
 	Burger,
+	Bread,
 	NONE
 	//List here the types of ingredients we might have in the game, to be discussed in design meeting
 };

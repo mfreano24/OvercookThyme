@@ -119,8 +119,6 @@ void AOvercookThymeCharacter::PickUpCarryable(Carryable* c)
 {
 	if (currCarry == nullptr) {
 		currCarry = c;
-		GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Red, FString::Printf(TEXT("Picked up from stove: %s, %s, %f"),
-			currCarry->Ingredients[0]->type, currCarry->Ingredients[0]->doneness, currCarry->Ingredients[0]->cookedValue));
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("YOU'RE HOLDING SOMETHING ALREADY!!"));

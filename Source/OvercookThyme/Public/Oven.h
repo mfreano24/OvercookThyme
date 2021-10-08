@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Station.h"
+#include "Carryable.h"
 #include "Oven.generated.h"
 
 /**
@@ -14,5 +15,10 @@ class OVERCOOKTHYME_API AOven : public AStation
 {
 	GENERATED_BODY()
 public:
-	virtual void Interact(AOvercookThymeCharacter* Player) override;
+	AOven();
+	~AOven();
+
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaSeconds) override;
 };

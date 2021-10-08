@@ -31,9 +31,45 @@ void AStation::BeginPlay()
 
 void AStation::Interact(AOvercookThymeCharacter* Player)
 {
-	UE_LOG(LogTemp, Warning, TEXT("STATION INTERACTED WITH: %s"), *GetName());
-}
+	if (currItem == nullptr) {
+		UE_LOG(LogTemp, Warning, TEXT("curr item is nullptr"));
+		//need to make sure the player has an item
+		if (Player->currCarry != nullptr && currItem == nullptr) {
+			if (Player->currCarry->Ingredients.Num() == 1) {
+				//TENTATIVE- MAY REMOVE IF TOO CONFUSING FOR A PLAYER
+				Carryable* ret = Player->RemoveCarryable();
+				currItem = ret;
+			}
 
+		}
+	}
+	else {
+
+		if (Player->currCarry == nullptr && currItem != nullptr)
+		{
+			//GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Orange,
+				//FString::Printf(TEXT("Picked burger up: Cook value is %f \nCOOKED: %d \nBURNT: %d"),
+				//currItem->Ingredients[0]->cookedValue, currItem->Ingredients[0]->doneness == Doneness::Grilled,
+				//currItem->Ingredients[0]->doneness == Doneness::Burnt));
+			Player->PickUpCarryable(currItem);
+			currItem = nullptr;
+
+		}
+		else {
+			UE_LOG(LogTemp, Warning, TEXT("PLAYER item is NOT nullptr"));
+		}
+	}
+
+	//set the tick interval
+	if (currItem == nullptr) {
+		SetActorTickEnabled(false);
+	}
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Green, FString::Printf(TEXT("tick enabled!")));
+		SetActorTickEnabled(true);
+		SetActorTickInterval(0.25f);
+	}
+}
 void AStation::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);

@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "../OvercookThymeCharacter.h"
 #include "OvercookGameInstanceSubsystem.h"
+#include "Carryable.h"
 #include "Station.generated.h"
 
 UCLASS()
@@ -28,6 +29,7 @@ protected:
 	class UStaticMeshComponent* Mesh;
 
 public:
+	Carryable* currItem = nullptr;
 
 	UFUNCTION(BlueprintCallable)
 	virtual void Interact(AOvercookThymeCharacter* Player);

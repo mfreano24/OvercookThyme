@@ -11,12 +11,6 @@ AStove::AStove()
 	Ingredient* testIngredient = new Ingredient(Type::Burger, Doneness::Raw, 12.0f);
 	currItem = new Carryable(new Ingredient(Type::Burger, Doneness::Raw, 12.0f));
 
-	FString typeSt = "(null)";
-	switch (currItem->Ingredients[0]->type) {
-	case Type::Burger:
-		typeSt = "BURGER";
-	}
-
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.TickInterval = 0.25f;
 }
@@ -33,47 +27,10 @@ void AStove::BeginPlay()
 	//subsystem stuff
 	UOvercookGameInstanceSubsystem* cookSub = GetCookingSubsystem();
 
-	cookSub->CookingApplianceToMethod[this->GetClass()->GetName()] = Doneness::Grilled;
+	cookSub->CookingApplianceToMethod.Add(this->GetClass()->GetName(), Doneness::Grilled);
 	
 }
 
-void AStove::Interact(AOvercookThymeCharacter* Player)
-{
-	Super::Interact(Player);
-
-	if (currItem == nullptr) {
-		UE_LOG(LogTemp, Warning, TEXT("curr item is nullptr"));
-		//need to make sure the player has an item
-		if (Player->currCarry != nullptr && currItem == nullptr) {
-			Carryable* ret = Player->RemoveCarryable();
-			currItem = ret;
-
-			GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Red, FString::Printf(TEXT("Placed on the stove: %s, %s, %f"),
-				currItem->Ingredients[0]->type, currItem->Ingredients[0]->doneness, currItem->Ingredients[0]->cookedValue));
-			
-		}
-	}
-	else {
-		
-		if (Player->currCarry == nullptr && currItem != nullptr) {
-			Player->PickUpCarryable(currItem);
-			currItem = nullptr;
-		}
-		else {
-			UE_LOG(LogTemp, Warning, TEXT("PLAYER item is NOT nullptr"));
-		}
-	}
-
-	//set the tick interval
-	if (currItem == nullptr) {
-		SetActorTickEnabled(false);
-	}
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 2.5f, FColor::Green, FString::Printf(TEXT("tick enabled!")));
-		SetActorTickEnabled(true);
-		SetActorTickInterval(0.25f);
-	}
-}
 
 void AStove::Tick(float DeltaSeconds)
 {
@@ -82,8 +39,20 @@ void AStove::Tick(float DeltaSeconds)
 	//cook something over time.
 	if (currItem != nullptr)
 	{
-		for (auto c : currItem->Ingredients) {
+		for (auto c : currItem->Ingredients) 
+		{
 			c->cookedValue += 100 * DeltaSeconds;
+
+			if (c->doneness == Doneness::Raw && c->cookedValue >= 1000.0f)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("INGREDIENT IS COOKED"));
+				c->doneness = GetCookingSubsystem()->CookingApplianceToMethod[this->GetClass()->GetName()];
+			}
+			else if (c->cookedValue >= 1500.0f)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("INGREDIENT IS BURNT"));
+				c->doneness = Doneness::Burnt;
+			}
 		}
 	}
 }
